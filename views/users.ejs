@@ -1,0 +1,21 @@
+<%- include('header') %>
+<div class="ui main container">
+    <table  class="ui celled table">
+        <thead>
+            <tr>
+            <% for (var i=0;i<fields.length;i++) { %>
+                <th><%= fields[i].name %></th>
+            <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (var i=0;i<users.length;i++) { %>
+                <tr>
+                    <td><%= users[i].id %></td>
+                    <td><%= users[i].name %></td>
+                    <td><%= users[i].create_date %></td>                   
+                </tr>
+            <% } %>
+        </tbody>
+    </table>    
+</div>
