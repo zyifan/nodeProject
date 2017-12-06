@@ -12,16 +12,30 @@ var router = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));// 设置模板目录
+app.set('views', path.join(__dirname, 'views'));// 设置模板目录，__dirname是node.js里面的全局变量，即取得执行的js所在的路径
 app.set('view engine', 'ejs');// 设置模板引擎为 ejs
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(logger('dev'));//可以将请求信息打印在控制台，便于开发调试
+
+// 将client提交过来的post请求放入request.body中
+app.use(bodyParser.json());// 解析 application/json
+app.use(bodyParser.urlencoded({ extended: false }));// 解析 application/x-www-form-urlencoded
+
+app.use(cookieParser());//req.cookies，每一个cookie为cookies属性值数组中的一个对象.
 app.use(express.static(path.join(__dirname, 'public')));// 设置静态文件目录
+
+
+//设置跨域访问
+// app.all('*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//   res.header("X-Powered-By",' 3.2.1')
+//   res.header("Content-Type", "application/json;charset=utf-8");
+//   next();
+// });
 
 // 设置模板全局常量
 app.locals.proInfo = {
@@ -30,7 +44,7 @@ app.locals.proInfo = {
 
 router(app);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler  把该中间件放到路由最后，在所有的都不匹配时采用这个函数
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;

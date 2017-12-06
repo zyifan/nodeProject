@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "sup": "supervisor ./bin/www"
+    "sup": "supervisor ./bin/www",
+    "start1": "node ./bin/www",
+    "dev":"set DEBUG=znode:* && node ./bin/www ",
+    "build":"set DEBUG=null && node ./bin/www",
+    "sup1":"set DEBUG=znode:* && supervisor ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

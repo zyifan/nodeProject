@@ -4,29 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('uunode:server');
-var http = require('http');
-var config = require('config-lite')(__dirname);
+var app = require('../app');//入口文件
+var debug = require('debug')('uunode:server'); //代替console.log调整，生产模式使用set debug=null
+var http = require('http');//http模块
+var config = require('config-lite')(__dirname);//配置信息
+
 
 /**
- * Get port from environment and store in Express.
+ * Get port from environment and store in Express.从配置文件或者运行换行中获取port，并存储到express
  */
 
 var port = normalizePort(config.port || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP server.创建 HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(app);//根据app创建服务器
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Listen on provided port, on all network interfaces.将端口转换为number或者false
  */
 
-server.listen(port);
+server.listen(port);//监听端口是否被占用
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -37,7 +38,7 @@ server.on('listening', onListening);
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN(port)) {//如果字符串，则原值返回
     // named pipe
     return val;
   }
@@ -51,7 +52,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server "error" event.监听 "error" event 事件
  */
 
 function onError(error) {
@@ -66,11 +67,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(bind + ' requires elevated privileges 需要提升权限');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(bind + ' is already in use  已经被占用');
       process.exit(1);
       break;
     default:
@@ -78,6 +79,12 @@ function onError(error) {
   }
 }
 
+
+/**
+ * Event listener for HTTP server "listening" event.
+ * 相信使用node.js的朋友们都知道，一般在nodejs需要进行调试的时候，
+ * 可以使用console.log()方法来将调试信息输出到控制台，当发布到生产环境的时候，需要将这些调试信息都注释掉，为了方便切换而不需要改动程序代码，可以使用nodejs的debug模块
+ */
 /**
  * Event listener for HTTP server "listening" event.
  */
